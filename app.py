@@ -37,14 +37,18 @@ def add():
     email = request.form['email']
     print(name,email)
     cur = mysql.cursor() #create a connection to the SQL instance
-    s='''INSERT INTO students(studentName, email) VALUES('{}','{}');'''.format(name,email)
+    s='''INSERT INTO students(studentName, email) VALUES(?,?);'''
     app.logger.info(s)
-    cur.execute(s)
+    cur.execute(s,name,email)
     mysql.commit()
   else:
     return render_template('add.html')
 
   return '{"Result":"Success"}'
+@app.route("/index.html") #Default - Show Data
+
+def index():
+  return render_template('add.html')
 @app.route("/") #Default - Show Data
 def hello(): # Name of the method
   cur = mysql.cursor() #create a connection to the SQL instance
